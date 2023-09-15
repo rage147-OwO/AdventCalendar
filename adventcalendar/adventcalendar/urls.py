@@ -22,5 +22,5 @@ import calendarapp.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('', calendarapp.views.calendar, name='calendar')
+    path('', include('calendarapp.urls')),
 ]

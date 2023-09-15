@@ -1,5 +1,13 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Create Calendar Entry">
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Calendar Entry</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Create Entry">
+    </form>
+</body>
+</html>

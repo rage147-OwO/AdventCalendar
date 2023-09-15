@@ -17,10 +17,14 @@ class GalleryImage(models.Model):
     def __str__(self):
         return f"Image for {self.gallery.username}"
 
+from django.db import models
+
 class CalendarEntry(models.Model):
     username = models.CharField(max_length=255)
-    day = models.DateField()
+    day = models.PositiveIntegerField()
     link = models.URLField()
+    user_image = models.ImageField(upload_to='user_images/')
 
     def __str__(self):
         return f"Entry for {self.username} on {self.day}"
+

@@ -8,7 +8,9 @@ class GalleryForm(forms.ModelForm):
 
 GalleryImageFormSet = forms.inlineformset_factory(Gallery, GalleryImage, fields=('image',), extra=1, max_num=5,can_delete=False)
 
+
 class CalendarEntryForm(forms.ModelForm):
     class Meta:
         model = CalendarEntry
-        fields = ['username', 'day', 'link']
+        fields = ['username', 'day', 'link', 'user_image']
+

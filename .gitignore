@@ -1,0 +1,29 @@
+# .gitignore
+
+# media 폴더 무시
+media/
+
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Virtual Environment
+venv/
+*.pyc
+
+# IDE-specific settings
+.idea/
+*.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+ehthumbs.db
+Icon
+Thumbs.db

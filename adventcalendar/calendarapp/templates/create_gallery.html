@@ -1,9 +1,17 @@
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    {{ formset.management_form }}
-    {% for form in formset %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Gallery</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         {{ form.as_p }}
-    {% endfor %}
-    <input type="submit" value="Create Gallery">
-</form>
+        {{ formset.management_form }}
+        {% for image_form in formset %}
+        {{ image_form.as_p }}
+        {% endfor %}
+        <input type="submit" value="Create Gallery">
+    </form>
+</body>
+</html>

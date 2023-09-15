@@ -90,11 +90,16 @@
                     {% if day_data.person_image_url %}
                     <img src="{{ day_data.person_image_url }}" alt="{{ day_data.person_name }}">
                     {% endif %}
-                    <p class="person-name">{{ day_data.person_name }}</p> <!-- 이름만 출력합니다 -->
+                    {% if day_data.link %}
+                    <a href="{{ day_data.link }}" class="person-name">{{ day_data.person_name }}</a>
+                    {% else %}
+                    <p class="person-name">{{ day_data.person_name }}</p>
+                    {% endif %}
                 </div>
                 {% endif %}
             </div>
             {% endfor %}
+             
             <div class="day"></div>
             <div class="day"></div>
             <div class="day"></div>

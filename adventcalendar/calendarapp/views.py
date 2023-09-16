@@ -2,6 +2,8 @@ from django.template import loader
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import GalleryForm, GalleryImageFormSet, CalendarEntryForm
 from .models import Gallery, GalleryImage, CalendarEntry
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
 
 
 def calendar(request):
@@ -20,7 +22,6 @@ def calendar(request):
     return render(request, 'calendar.html', {'days': days})
 
 
-
 def create_gallery(request):
     if request.method == 'POST':
         form = GalleryForm(request.POST)
@@ -36,23 +37,39 @@ def create_gallery(request):
 
     return render(request, 'create_gallery.html', {'form': form, 'formset': formset})
 
+
+        
+@login_required
 def create_calendar_entry(request):
     if request.method == 'POST':
         form = CalendarEntryForm(request.POST, request.FILES)
         if form.is_valid():
-            entry, created = CalendarEntry.objects.update_or_create(
-                username=form.cleaned_data['username'],
-                defaults={
-                    'day': form.cleaned_data['day'],
-                    'link': form.cleaned_data['link'],
-                    'user_image': form.cleaned_data['user_image']
-                }
-            )
-            return redirect('calendar_entry_list')
-    else:
+            entry = form.save(commit=False)
+            entry.user = request.user  # 현재 로그인한 사용자를 항목의 작성자로 설정합니다.
+            entry.save()
+            return redirect('home')
+    else:   
         form = CalendarEntryForm()
 
     return render(request, 'create_calendar_entry.html', {'form': form})
+
+@login_required
+def update_calendar_entry(request, entry_id):
+    entry = get_object_or_404(CalendarEntry, id=entry_id)
+
+    # 현재 사용자가 항목의 작성자가 아니면 접근을 차단합니다.
+    if entry.user != request.user:
+        return HttpResponseForbidden("You don't have permission to edit this entry.")
+
+    if request.method == 'POST':
+        form = CalendarEntryForm(request.POST, request.FILES, instance=entry)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = CalendarEntryForm(instance=entry)
+
+    return render(request, 'update_calendar_entry.html', {'form': form})
 
 
 

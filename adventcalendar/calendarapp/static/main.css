@@ -45,7 +45,6 @@ body {
     height: 50px;
     padding: 0px 0px 0px 0px;
     margin: 20px;
-
     font-family: 'Jua', sans-serif;
     
 }
@@ -74,7 +73,7 @@ body {
     color: white;
     text-align: center;
     position: absolute;
-    bottom: 3%;  /* 바닥에 붙입니다. */
+    bottom: 5%;  /* 바닥에 붙입니다. */
     left: 50%;
     transform: translateX(-50%) translateY(50%);  /* horizontal 중앙 정렬 및 vertical 반만큼 이동하여 텍스트 배경의 중앙이 이미지 바닥에 오도록 합니다. */
     opacity: 0;
@@ -157,7 +156,7 @@ body {
     color : #3f3f51;
     text-align: center;
     position: absolute;
-    bottom: 10px;  
+    bottom: 10%;  
     left: 50%;
     font-size: small;
     transform: translateX(-50%);

@@ -1,0 +1,29 @@
+Django 는 내장으로 sqlLite를 사용.
+
+
+front를 완성했다. 이제야 HTML과 CSS 감이 잡힌다.
+
+다음은 백엔드쪽을 하려고 한다. 무엇부터 할까 하다가, 절차가 
+메인페이지(캘린더)보여주기
+->캘린더 클릭시 URL리다이렉트
+->Oauth로그인->글CURD->글과 캘린더 연동
+
+allauth라는 Django라이브러리를 사용했다
+우선적으로 githubOAuth 키를 발급받고 서버에 등록, Oauth에서 recall? 리다이렉션 주소? 이건뭐지
+
+
+
+
+
+Model-View-Template
+
+처음에는 view를 먼저 작성하려했는데, DB를 먼저 하는게 나을듯
+데이터의 흐름이니깐 
+
+1. userID, userName, day, link, user_image
+day는 unique
+
+
+
+헉 flush 명령어를 사용하니 DB가 다 날라갔다
+

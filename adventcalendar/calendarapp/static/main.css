@@ -3,21 +3,25 @@
 
 
 
-body {
-  /* 기존 스타일 */
+
+
+html, body {
   font-family: 'Jua', sans-serif;
-  font-size: small;
+  font-size: medium;
   background-color: #def1f5;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* 수평 중앙 정렬 */
   align-items: center;
-  /* 수직 중앙 정렬 */
   max-width: 960px;
   margin: 0 auto;
   overflow-x: hidden;
+}
 
+.menu{
+  /* 오른쪽 정렬, 언더바*/
+  display: flex;
+  justify-content: flex-end;
 }
 
 .calendar-container {
@@ -194,42 +198,6 @@ body {
   align-items: center;
   justify-content: center;
 }
-
-
-/* styles.css (또는 별도의 CSS 파일) */
-.floating-menu {
-  position: fixed;
-  bottom: 30px;
-  right: 20px;
-  z-index: 1000;
-}
-
-.menu-button {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  /* Other button styles */
-}
-
-
-.menu-content {
-  display: none;
-  position: absolute;
-  background-color: #fff;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  border-radius: 5px;
-  right: 0;
-}
-
-.menu-content a {
-  display: block;
-  margin-bottom: 10px;
-  color: #333;
-  text-decoration: none;
-}
-
-
 
 
 

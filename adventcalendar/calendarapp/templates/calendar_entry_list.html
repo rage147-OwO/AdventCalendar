@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Calendar Entry List</h1>
+  <h3>캘린더 목록</h3>
   <ul>
     {% for entry in entries %}
       <li>
-        <a href="{% url 'calendar_entry_detail' entry.id %}">{{ entry.username }}</a> 
+        <a href="{% url 'calendar_entry_detail' entry.id %}">Day {{ entry.day }} - {{ entry.username }}</a> 
         {% if entry.user == user %}
-          ((<a href="{% url 'update_calendar_entry' entry.id %}">Edit</a> | <a href="{% url 'delete_calendar_entry' entry.id %}">Delete</a>)          )
+          (<a href="{% url 'update_calendar_entry' entry.id %}">Edit</a> | <a href="{% url 'delete_calendar_entry' entry.id %}">Delete</a>)          
         {% endif %}
       </li>
     {% endfor %}

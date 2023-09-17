@@ -22,6 +22,11 @@ def calendar(request):
 
     return render(request, 'calendar.html', {'days': days})
 
+def loginn(request):
+    return render(request, 'login.html')
+
+def calendar_intro(request):
+    return render(request, 'calendar_intro.html')
 
 def create_gallery(request):
     if request.method == 'POST':

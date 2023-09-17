@@ -10,31 +10,6 @@
 
 
 <body>
-
-    <div class="floating-menu">
-        <button id="menu-button">Menu</button>
-        <div class="menu-items">
-            <div class="menu-item" id="calendar-intro">캘린더 소개</div>
-            <div class="menu-item" id="login">로그인</div>
-            <div class="menu-item" id="post-list">글 목록</div>
-        </div>
-    </div>
-
-    <!-- 캘린더 소개 칸 -->
-    <div class="menu-content" id="calendar-intro-content">
-        <!-- 캘린더 소개 내용 -->
-    </div>
-
-    <!-- 로그인 칸 -->
-    <div class="menu-content" id="login-content">
-        <!-- 로그인 폼 또는 내용 -->
-    </div>
-
-    <!-- 글 목록 칸 -->
-    <div class="menu-content" id="post-list-content">
-        <!-- 글 목록 내용 -->
-    </div>
-
     <!-- #region SampleRegion -->
     <div class="snowflake"></div>
     <div class="snowflake"></div>
@@ -88,6 +63,20 @@
     <!-- #endregion -->
 
     <div class="calendar-container">
+        <div class="menu">
+            <div class="menu-items">
+                <span class="menu-item" id="calendar-intro"><a href="{% url 'calendar_intro' %}">캘린더 소개</a></span>
+
+                {% if user.is_authenticated %}
+                    <span class="menu-item" id="logout"><a href="/accounts/logout/">로그아웃</a></span>
+                {% else %}
+                    <span class="menu-item" id="login"><a href="login/">로그인</a></span>
+                {% endif %}
+                <span class="menu-item" id="post-list"><a href="{% url 'calendar_entry_list' %}">글 목록</a></span>
+            </div>
+        </div>
+        
+        
         <div class="title">
             <h1>2024 VRChat 연말 캘린더</h1>
         </div>
@@ -157,7 +146,7 @@
             });
         });
     </script>
-        
+
 
 
     <p>

@@ -30,4 +30,3 @@ class CalendarEntry(models.Model):
 
     def __str__(self):
         return f"Entry for {self.username} on {self.day}"
-

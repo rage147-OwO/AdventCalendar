@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Calendar Entry Detail</h1>
+  <p><strong>Username:</strong> {{ entry.username }}</p>
+  <p><strong>Day:</strong> {{ entry.day }}</p>
+  <p><strong>Link:</strong> <a href="{{ entry.link }}" target="_blank">{{ entry.link }}</a></p>
+  <p><strong>User Image:</strong> <img src="{{ entry.user_image.url }}" alt="{{ entry.username }}" width="200"></p>
+  {% if entry.user == user %}
+    <p><a href="{% url 'update_calendar_entry' entry.id %}">Edit</a> | <a href="{% url 'delete_calendar_entry' entry.id %}">Delete</a></p>
+  {% endif %}
+  <a href="{% url 'calendar_entry_list' %}">Back to List</a>
+{% endblock %}

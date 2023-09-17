@@ -1,6 +1,0 @@
-{% for entry in calendar_entries %}
-    {{ entry.username }}: {{ entry.link }}
-    {% if entry.user == request.user %}
-        <a href="{% url 'update_calendar_entry' entry.id %}">Edit</a>
-    {% endif %}
-{% endfor %}

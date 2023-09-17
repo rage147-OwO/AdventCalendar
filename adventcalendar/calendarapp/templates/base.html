@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Web App{% endblock %}</title>
+    <!-- CSS 및 기타 스타일링 링크 추가 -->
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">메인페이지</a></li>
+                <li><a href="{% url 'calendar_entry_list' %}">캘린더 목록</a></li>
+                <!-- 기타 메뉴 항목 추가 -->
+            </ul>
+        </nav>
+        {% if user.is_authenticated %}
+        <div>
+            <p>Hello, {{ user.username }}</p>
+            {% if user.calendarentry.user_image %}
+            <img src="{{ user.calendarentry.user_image.url }}" alt="{{ user.username }}" width="50">
+            {% endif %}
+        </div>
+        {% endif %}
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <!-- 푸터 내용 추가 -->
+    </footer>
+
+    <!-- 추가적인 JavaScript 파일 및 스크립트 추가 -->
+</body>
+</html>

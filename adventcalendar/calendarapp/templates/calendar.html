@@ -3,64 +3,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advent Calendar</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static "main.css" %}"> 
+    <link rel="stylesheet" href="{% static "main.css" %}">
 
 </head>
 
 
 
 <body>
-<!-- #region SampleRegion -->
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<div class="snowflake"></div>
-<!-- #endregion -->
+
+    <div class="floating-menu">
+        <button id="menu-button">Menu</button>
+        <div class="menu-items">
+            <div class="menu-item" id="calendar-intro">캘린더 소개</div>
+            <div class="menu-item" id="login">로그인</div>
+            <div class="menu-item" id="post-list">글 목록</div>
+        </div>
+    </div>
+
+    <!-- 캘린더 소개 칸 -->
+    <div class="menu-content" id="calendar-intro-content">
+        <!-- 캘린더 소개 내용 -->
+    </div>
+
+    <!-- 로그인 칸 -->
+    <div class="menu-content" id="login-content">
+        <!-- 로그인 폼 또는 내용 -->
+    </div>
+
+    <!-- 글 목록 칸 -->
+    <div class="menu-content" id="post-list-content">
+        <!-- 글 목록 내용 -->
+    </div>
+
+    <!-- #region SampleRegion -->
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <div class="snowflake"></div>
+    <!-- #endregion -->
 
     <div class="calendar-container">
         <div class="title">
@@ -99,7 +124,7 @@
                 {% endif %}
             </div>
             {% endfor %}
-             
+
             <div class="day"></div>
             <div class="day"></div>
             <div class="day"></div>
@@ -107,115 +132,128 @@
             <div class="day"></div>
             <div class="day"></div>
         </div>
-        
+
     </div>
 
 
-    
 
 
-    
 
     <script>
         // Using vanilla JS to show content on click
         document.querySelectorAll('.day').forEach(day => {
         });
-    </script>
 
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
-<p>
-</p>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuButton = document.getElementById("menu-button");
+            const menuContent = document.getElementById("menu-content");
+
+            menuButton.addEventListener("click", function () {
+                if (menuContent.style.display === "block") {
+                    menuContent.style.display = "none";
+                } else {
+                    menuContent.style.display = "block";
+                }
+            });
+        });
+    </script>
+        
+
+
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
+    <p>
+    </p>
 </body>

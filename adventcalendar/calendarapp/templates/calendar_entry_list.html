@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Calendar Entry List</h1>
+  <ul>
+    {% for entry in entries %}
+      <li>
+        <a href="{% url 'calendar_entry_detail' entry.id %}">{{ entry.username }}</a> 
+        {% if entry.user == user %}
+          ((<a href="{% url 'update_calendar_entry' entry.id %}">Edit</a> | <a href="{% url 'delete_calendar_entry' entry.id %}">Delete</a>)          )
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'create_calendar_entry' %}">Create New Entry</a>
+{% endblock %}

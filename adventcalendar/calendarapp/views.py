@@ -1,9 +1,14 @@
 from django.template import loader
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import GalleryForm, GalleryImageFormSet, CalendarEntryForm
-from .models import Gallery, GalleryImage, CalendarEntry
+from .forms import  CalendarEntryForm
+from .models import CalendarEntry, Calendar
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
+
+
+def calendar_list(request):
+    calendars = Calendar.objects.all()
+    return render(request, 'calendar_list.html', {'calendars': calendars})
 
 
 
@@ -28,20 +33,6 @@ def loginn(request):
 def calendar_intro(request):
     return render(request, 'calendar_intro.html')
 
-def create_gallery(request):
-    if request.method == 'POST':
-        form = GalleryForm(request.POST)
-        formset = GalleryImageFormSet(request.POST, request.FILES)
-        if form.is_valid() and formset.is_valid():
-            gallery = form.save()
-            formset.instance = gallery
-            formset.save()
-            return redirect('gallery_detail', gallery.id)
-    else:
-        form = GalleryForm()
-        formset = GalleryImageFormSet(queryset=GalleryImage.objects.none())
-
-    return render(request, 'create_gallery.html', {'form': form, 'formset': formset})
 
 
 @login_required

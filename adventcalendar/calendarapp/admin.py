@@ -1,7 +1,6 @@
 from django.contrib import admin
-from .models import Gallery, GalleryImage, CalendarEntry
+from .models import CalendarEntry, Calendar
 # Register your models here.
 
-admin.site.register(Gallery)
-admin.site.register(GalleryImage)
 admin.site.register(CalendarEntry)
+admin.site.register(Calendar)

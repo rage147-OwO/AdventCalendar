@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Available Calendars</h1>
+    <ul>
+        {% for calendar in calendars %}
+            <li>
+                {{ calendar.name }}</a> - {{ calendar.description }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

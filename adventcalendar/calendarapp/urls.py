@@ -4,9 +4,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('calendar_list/', views.calendar_list, name='calendar_list'),
     path('', views.calendar, name='home'),
     path('login/', views.loginn),
-    path('create-gallery/', views.create_gallery, name='create_gallery'),
     path('showlist/', views.showlist, name='showlist'),
     path('calendar_intro/', views.calendar_intro, name='calendar_intro'),
     path('calendar-entries/', views.calendar_entry_list, name='calendar_entry_list'),

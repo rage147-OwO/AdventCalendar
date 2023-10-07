@@ -5,7 +5,7 @@
     <ul>
         {% for calendar in calendars %}
             <li>
-                {{ calendar.name }}</a> - {{ calendar.description }}
+                <a href="{% url 'calendar_detail' calendar.id %}">{{ calendar.name }}</a> - {{ calendar.description }}
             </li>
         {% endfor %}
     </ul>

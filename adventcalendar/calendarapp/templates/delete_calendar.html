@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Delete Calendar</h2>
+
+<p>Are you sure you want to delete the calendar "{{ calendar.name }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirm Delete</button>
+</form>
+<a href="{% url 'calendar_detail' calendar.id %}">Cancel</a>
+{% endblock %}

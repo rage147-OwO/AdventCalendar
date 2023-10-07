@@ -1,0 +1,28 @@
+html{
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    background-color: white;
+
+}
+
+header{
+    margin: 0 auto;
+    position: relative;
+    padding: 5px 12px;
+}
+
+.inner{
+    max-width: none;
+    max-height: none;
+    margin: 0 auto;
+    padding: 0 12px;
+}
+
+.logo{
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 165px;
+    height: 100%;
+}

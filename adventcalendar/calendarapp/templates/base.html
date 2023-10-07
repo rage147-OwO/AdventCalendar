@@ -1,31 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Web App{% endblock %}</title>    {% load static %}
-    <link rel="stylesheet" href="{% static "main.css" %}">
+    <title>{% block title %}My Web App{% endblock %}</title>
+    {% load static %}
+    <style>
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: white;
+            color: white;
+        }
+
+        .inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1024px;
+            margin: 0 auto;
+
+        }
+
+        .logo {
+            margin-right: 20px;
+        }
+
+        .hero {
+            background-image: url('{% static "3.png" %}');
+            background-position: right -120px top;
+            background-size: auto 200px;
+            height: 200px;
+            position: relative;
+            padding: 0 12px;
+        }
+        body {
+        margin: 0;
+        padding: 0;
+    }
+
+
+        @media only screen and (max-width: 768px) {
+            header {
+                flex-direction: column;
+            }
+        }
+
+
+    </style>
 </head>
-<body>
-    <header>
-        {% if user.is_authenticated %}
-        <div>
-            현재 로그인 계정 :  {{ user.username }}
-            {% if user.calendarentry.user_image %}
-            <img src="{{ entry.user_image.url }}" alt="{{ user.username }}" width="50">
-            {% endif %}
-            <a href="/">메인페이지</a><br>
-        </div>
+
+<header>
+    <div class="inner">
+        <img src="{% static "logo.png" %}" alt="logo" width="220" height="28" class="logo"> <!-- 로고 이미지 크기 변경 -->
+        
+        <a href="/" style="text-align:right">메인페이지</a><br>
+    </div>
+
+    {% if user.is_authenticated %}
+    <div>
+        현재 로그인 계정 : {{ user.username }}
+        {% if user.calendarentry.user_image %}
+        <img src="{{ entry.user_image.url }}" alt="{{ user.username }}" width="40"> <!-- 유저 이미지 크기 변경 -->
         {% endif %}
-    </header>
+    </div>
+    {% endif %}
+    </div>
+</header>
 
-
-    <main>
+<body>
+    <div class="hero">
+    
+    </div>
         {% block content %}
         {% endblock %}
-    </main>
-
-
-    <!-- 추가적인 JavaScript 파일 및 스크립트 추가 -->
 </body>
 </html>

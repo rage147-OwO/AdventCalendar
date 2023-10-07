@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ calendar.name }}</h2>
+<p>{{ calendar.description }}</p>
+<p>Created by: {{ calendar.creator.username }} on {{ calendar.created_date }}</p>
+
+<a href="{% url 'update_calendar' calendar.id %}">Edit</a>
+<a href="{% url 'delete_calendar' calendar.id %}">Delete</a>
+{% endblock %}

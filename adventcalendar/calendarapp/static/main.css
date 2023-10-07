@@ -5,10 +5,10 @@
 
 
 
-html, body {
+body {
   font-family: 'Jua', sans-serif;
   font-size: medium;
-  background-color: #def1f5;
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -49,7 +49,6 @@ html, body {
   align-items: center;
   justify-content: center;
   color: #3f3f51;
-  background-color: #a9bec3;
   height: 50px;
   padding: 0px 0px 0px 0px;
   margin: 20px;

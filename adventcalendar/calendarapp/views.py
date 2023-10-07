@@ -1,6 +1,6 @@
 from django.template import loader
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import  CalendarEntryForm
+from .forms import  CalendarEntryForm, CalendarForm
 from .models import CalendarEntry, Calendar
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
@@ -11,11 +11,60 @@ def calendar_list(request):
     return render(request, 'calendar_list.html', {'calendars': calendars})
 
 
+@login_required
+def create_calendar(request):
+    if request.method == 'POST':
+        form = CalendarForm(request.POST)
+        if form.is_valid():
+            calendar = form.save(commit=False)
+            calendar.creator = request.user
+            calendar.save()
+            return redirect('calendar_list')
+    else:
+        form = CalendarForm()
 
-def calendar(request):
+    return render(request, 'create_calendar.html', {'form': form})
+
+@login_required
+def calendar_detail(request, calendar_id):
+    calendar = get_object_or_404(Calendar, id=calendar_id)
+    return render(request, 'calendar_detail.html', {'calendar': calendar})
+
+@login_required
+def update_calendar(request, calendar_id):
+    calendar = get_object_or_404(Calendar, id=calendar_id, creator=request.user)
+
+    if request.method == 'POST':
+        form = CalendarForm(request.POST, instance=calendar)
+        if form.is_valid():
+            form.save()
+            return redirect('calendar_list')
+    else:
+        form = CalendarForm(instance=calendar)
+
+    return render(request, 'update_calendar.html', {'form': form})
+
+@login_required
+def delete_calendar(request, calendar_id):
+    calendar = get_object_or_404(Calendar, id=calendar_id, creator=request.user)
+
+    if request.method == 'POST':
+        calendar.delete()
+        return redirect('calendar_list')
+
+    return render(request, 'delete_calendar.html', {'calendar': calendar})
+
+
+
+
+def calendar(request, calendar_id):
+    # 해당 ID의 Calendar를 가져옴
+    calendar_obj = get_object_or_404(Calendar, id=calendar_id)
+    
     days = [{'day': i, 'person_name': None, 'person_image_url': None, 'link': None} for i in range(1, 32)]
-
-    calendar_entries = CalendarEntry.objects.all()
+    
+    # 해당 Calendar와 연결된 CalendarEntry 항목만 가져옴
+    calendar_entries = CalendarEntry.objects.filter(calendar=calendar_obj)
 
     for entry in calendar_entries:
         if 0 < entry.day <= 31:
@@ -25,7 +74,8 @@ def calendar(request):
                 'link': entry.link
             })
 
-    return render(request, 'calendar.html', {'days': days})
+    return render(request, 'calendar.html', {'days': days, 'calendar': calendar_obj})  # 'calendar' 객체도 템플릿에 전달
+
 
 def loginn(request):
     return render(request, 'login.html')
@@ -86,16 +136,3 @@ def delete_calendar_entry(request, entry_id):
     return render(request, 'delete_calendar_entry.html', {'entry': entry})
 
 
-@login_required
-def showlist(request):
-    days = [{'day': i, 'person_name': None, 'person_image_url': None, 'link': None} for i in range(1, 32)]
-    calendar_entries = CalendarEntry.objects.all()
-    for entry in calendar_entries:
-        if 0 < entry.day <= 31:
-            days[entry.day - 1].update({
-                'person_name': entry.username,
-                'person_image_url': entry.user_image.url if entry.user_image else None,
-                'link': entry.link
-            })
-
-    return render(request, 'showlist.html', {'days': days})

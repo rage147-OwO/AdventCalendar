@@ -1,14 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Jua:400');
-
 
 
 
 
 
 body {
-  font-family: 'Jua', sans-serif;
   font-size: medium;
-  background-color: white;
+  background-color: #F5F5F5;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,6 +14,7 @@ body {
   margin: 0 auto;
   overflow-x: hidden;
 }
+
 
 .menu{
   /* 오른쪽 정렬, 언더바*/
@@ -52,7 +50,6 @@ body {
   height: 50px;
   padding: 0px 0px 0px 0px;
   margin: 20px;
-  font-family: 'Jua', sans-serif;
 
 }
 

@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home - My Web App
+{% endblock %}
+
+{% block styles %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        /* 글꼴 추가 */
+    }
+
+    .top-page {
+        margin: 0 auto 25px auto;
+        height: 500px;
+        width: 100%;
+        background-color: #F5F5F5;
+        padding-top: 100px;
+    }
+
+    .pink-header {
+        background-color: #2C2C2C;
+        height: 200px;
+        width: 100vw;
+        /* viewport의 전체 너비를 차지하도록 설정 */
+        max-width: 100%;
+        /* 최대 너비 제한 */
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 50px;
+        font-weight: bold;
+        box-sizing: border-box;
+    }
+
+    .login-buttons {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .login-buttons a {
+        display: inline-block;
+    }
+
+
+    .github-button,
+    .google-button {
+        padding: 10px 20px;
+        margin: 0 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+
+    .github-button {
+        background-color: #333;
+        color: #B0B0B0;
+    }
+
+    .github-button:hover {
+        background-color: #4A4A4A;
+    }
+
+    .google-button {
+        background-color: #4285F4;
+        color: white;
+    }
+
+    .google-button:hover {
+        background-color: #669CF6;
+    }
+
+    .user-info {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 18px;
+        color: #2C2C2C;
+    }
+
+    .user-info img {
+        vertical-align: middle;
+        margin-left: 10px;
+        border-radius: 20px;
+    }
+
+
+
+
+    .calendar-list {
+        background-color: #f9f9f9;
+        border: 1px solid #e0e0e0;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 20px;
+        height: 1000px;
+    }
+
+
+
+    .calendar-list h2 {
+        margin-top: 0;
+        border-bottom: 2px solid #333;
+        padding-bottom: 10px;
+
+
+
+    }
+
+    .calendar-list ul {
+        list-style-type: none;
+        /* 목록 앞에 불릿 제거 */
+        padding-left: 0;
+        /* 기본 패딩 제거 */
+        display: flex;
+        /* 아이템들을 가로로 배치 */
+        flex-wrap: wrap;
+        /* 줄바꿈 허용 */
+        gap: 20px;
+        /* 아이템 간의 간격 설정 */
+    }
+
+    .calendar-list li {
+        background-color: #fff;
+        /* 흰색 배경 */
+        padding: 20px;
+        /* 내부 패딩 */
+        border: 1px solid #ddd;
+        /* 경계선 */
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+        /* 그림자 효과 */
+        border-radius: 5px;
+        /* 모서리 반올림 */
+        width: calc(33.33% - 20px);
+        /* 리스트 아이템 너비. 3개가 한 줄에 들어가도록 설정 */
+        box-sizing: border-box;
+        /* border와 padding을 포함한 너비 계산 */
+        transition: transform 0.2s;
+        /* 호버 애니메이션 */
+    }
+
+
+    .calendar-list a {
+        text-decoration: none;
+        color: #4285F4;
+        transition: color 0.3s;
+        display: block;
+    }
+
+    .calendar-list li:hover {
+        transform: translateY(-10px);
+        /* 호버 시 아이템을 약간 위로 이동 */
+    }
+
+    .add-calendar-btn {
+        padding: 10px 15px;
+        margin: 10px 0;
+        background-color: #2C2C2C;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 16px;
+    }
+
+    .add-calendar-btn:hover {
+        background-color: #4A4A4A;
+    }
+
+    .calendar-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .calendar-buttons {
+        display: flex;
+        gap: 10px;
+        /* 버튼 사이의 간격 설정 */
+    }
+
+    .calendar-buttons a {
+        color: #4285F4;
+        /* 아이콘 색상 설정 */
+        font-size: 20px;
+        /* 아이콘 크기 설정 */
+    }
+
+    /* Edit 및 Delete 버튼 호버 스타일 (필요에 따라 추가 스타일을 지정할 수 있습니다) */
+    .calendar-buttons a:hover {
+        color: #357ABD;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="calendar-list">
+    <div class="calendar-header">
+        <h2>Available Calendars</h2>
+        <a href="{% url 'create_calendar' %}"><button class="add-calendar-btn">캘린더 추가</button></a>
+        <form method="get" id="filterForm">
+            <label>
+                <input type="checkbox" name="show_mine" {% if request.GET.show_mine %}checked{% endif %}
+                    onchange="document.getElementById('filterForm').submit();">
+                나의 캘린더만 보기
+            </label>
+            <!-- submit 버튼은 필요 없어집니다, 이제 체크박스 상태 변경시 자동으로 폼이 제출됩니다. -->
+        </form>
+    </div>
+
+    <ul>
+        {% for calendar in calendars %}
+        <li>
+            <div class="calendar-item">
+                <a href="{% url 'calendar_detail' calendar.id %}">{{ calendar.name }}</a>
+                {% if request.user.is_authenticated and calendar.creator == request.user %}
+                <div class="calendar-buttons">
+                    <a href="{% url 'update_calendar' calendar.id %}">
+                        <i class="fas fa-edit"></i> <!-- Edit 아이콘 -->
+                    </a>
+                    <a href="{% url 'delete_calendar' calendar.id %}">
+                        <i class="fas fa-trash-alt"></i> <!-- Delete 아이콘 -->
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </li>
+        {% empty %}
+        <li>No available calendars.</li>
+        {% endfor %}
+    </ul>
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

@@ -4,6 +4,15 @@ from .forms import  CalendarEntryForm, CalendarForm
 from .models import CalendarEntry, Calendar
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
+from django.urls import reverse
+
+def index(request):
+    if 'show_mine' in request.GET and request.user.is_authenticated:
+        calendars = Calendar.objects.filter(creator=request.user)
+    else:
+        calendars = Calendar.objects.all()
+    return render(request, 'index.html', {'calendars': calendars})
+
 
 
 def calendar_list(request):
@@ -19,7 +28,7 @@ def create_calendar(request):
             calendar = form.save(commit=False)
             calendar.creator = request.user
             calendar.save()
-            return redirect('calendar_list')
+            return redirect(index)
     else:
         form = CalendarForm()
 
@@ -38,11 +47,11 @@ def update_calendar(request, calendar_id):
         form = CalendarForm(request.POST, instance=calendar)
         if form.is_valid():
             form.save()
-            return redirect('calendar_list')
+            return redirect(index)
     else:
         form = CalendarForm(instance=calendar)
 
-    return render(request, 'update_calendar.html', {'form': form})
+    return render(request, 'update_calendar.html', {'form': form, 'calendar': calendar})
 
 @login_required
 def delete_calendar(request, calendar_id):
@@ -50,7 +59,7 @@ def delete_calendar(request, calendar_id):
 
     if request.method == 'POST':
         calendar.delete()
-        return redirect('calendar_list')
+        return redirect(index)
 
     return render(request, 'delete_calendar.html', {'calendar': calendar})
 

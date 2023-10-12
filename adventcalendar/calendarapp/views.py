@@ -66,6 +66,20 @@ def delete_calendar(request, calendar_id):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def calendar(request, calendar_id):
     # 해당 ID의 Calendar를 가져옴
     calendar_obj = get_object_or_404(Calendar, id=calendar_id)
@@ -83,7 +97,12 @@ def calendar(request, calendar_id):
                 'link': entry.link
             })
 
-    return render(request, 'calendar.html', {'days': days, 'calendar': calendar_obj})  # 'calendar' 객체도 템플릿에 전달
+    return render(request, 'calendar.html', {
+        'days': days, 
+        'calendar': calendar_obj, 
+        'calendar_id': calendar_id  # 여기에 calendar_id 추가
+    }) 
+
 
 
 def loginn(request):
@@ -100,26 +119,30 @@ def create_calendar_entry(request, calendar_id):
     if request.method == 'POST':
         form = CalendarEntryForm(request.POST, request.FILES)
         if form.is_valid():
-            entry = form.save(commit=False)
-            entry.user = request.user  
-            entry.calendar = calendar
-            entry.save()
-            request.session['recent_calendar_id'] = calendar.id 
-            return redirect('calendar_entry_list')
+            day = form.cleaned_data['day']
+            if CalendarEntry.objects.filter(calendar=calendar, day=day).exists():
+                form.add_error('day', 'An entry for this day already exists for this calendar.')
+            else:
+                entry = form.save(commit=False)
+                entry.user = request.user  
+                entry.calendar = calendar
+                entry.save()
+                request.session['recent_calendar_id'] = calendar.id 
+                return redirect('calendar_detail', calendar_id=calendar_id)
     else:
         form = CalendarEntryForm()
 
-    return render(request, 'create_calendar_entry.html', {'form': form})
+    return render(request, 'create_calendar_entry.html', {'form': form, 'calendar_id': calendar_id})
+
+
+
 
 
 
 @login_required
-def calendar_entry_list(request):
-    entries = CalendarEntry.objects.filter(user=request.user).order_by('day')
-    calendar_id = request.session.get('recent_calendar_id') or (entries.first().calendar.id if entries.exists() else None)
-    if 'recent_calendar_id' in request.session:
-        del request.session['recent_calendar_id']
-    return render(request, 'calendar_entry_list.html', {'entries': entries, 'calendar_id': calendar_id})
+def calendar_entry_list(request, calendar_id):  
+    entries = CalendarEntry.objects.filter(user=request.user, calendar=calendar_id).order_by('day')  
+    return render(request, 'calendar_entry_list.html', {'entries': entries, 'calendar_id': calendar_id}) 
 
 
 
@@ -129,28 +152,26 @@ def calendar_entry_detail(request, entry_id):
     return render(request, 'calendar_entry_detail.html', {'entry': entry})
 
 @login_required
-def update_calendar_entry(request, entry_id):
+def update_calendar_entry(request, calendar_id, entry_id):
     entry = get_object_or_404(CalendarEntry, id=entry_id, user=request.user)
 
     if request.method == 'POST':
         form = CalendarEntryForm(request.POST, request.FILES, instance=entry)
         if form.is_valid():
             form.save()
-            return redirect('calendar_entry_list')
+            return redirect('calendar_entry_detail', calendar_id=calendar_id, entry_id=entry_id)
     else:
         form = CalendarEntryForm(instance=entry)
 
-    return render(request, 'update_calendar_entry.html', {'form': form, 'entry': entry})  # 'entry' 객체를 템플릿에 전달
-
+    return render(request, 'update_calendar_entry.html', {'form': form, 'entry': entry})
 
 @login_required
-def delete_calendar_entry(request, entry_id):
+def delete_calendar_entry(request,calendar_id, entry_id):
     entry = get_object_or_404(CalendarEntry, id=entry_id, user=request.user)
 
     if request.method == 'POST':
         entry.delete()
-        return redirect('calendar_entry_list')
-
-    return render(request, 'delete_calendar_entry.html', {'entry': entry})
+        return redirect('calendar_entry_detail', calendar_id=calendar_id, entry_id=entry_id)
+    return render(request, 'delete_calendar_entry.html', {'entry': entry, 'calendar_id': entry.calendar.id})
 
 

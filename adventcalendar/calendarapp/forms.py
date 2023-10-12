@@ -6,7 +6,9 @@ from .models import  CalendarEntry, Calendar
 class CalendarEntryForm(forms.ModelForm):
     class Meta:
         model = CalendarEntry
-        fields = ['username', 'day', 'link', 'user_image']
+        fields = ['day', 'link', 'user_image']
+
+
 
 class CalendarForm(forms.ModelForm):
     class Meta:

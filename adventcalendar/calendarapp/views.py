@@ -70,7 +70,7 @@ def calendar(request, calendar_id):
     # 해당 ID의 Calendar를 가져옴
     calendar_obj = get_object_or_404(Calendar, id=calendar_id)
     
-    days = [{'day': i, 'person_name': None, 'person_image_url': None, 'link': None} for i in range(1, 32)]
+    days = [{'day': i, 'person_name': None, 'person_image_url': None, 'link': None} for i in range(1, 26)]
     
     # 해당 Calendar와 연결된 CalendarEntry 항목만 가져옴
     calendar_entries = CalendarEntry.objects.filter(calendar=calendar_obj)
@@ -78,7 +78,7 @@ def calendar(request, calendar_id):
     for entry in calendar_entries:
         if 0 < entry.day <= 31:
             days[entry.day - 1].update({
-                'person_name': entry.username,
+                'person_name': request.user,
                 'person_image_url': entry.user_image.url if entry.user_image else None,
                 'link': entry.link
             })
@@ -95,24 +95,33 @@ def calendar_intro(request):
 
 
 @login_required
-def create_calendar_entry(request):
+def create_calendar_entry(request, calendar_id): 
+    calendar = Calendar.objects.get(pk=calendar_id)
     if request.method == 'POST':
         form = CalendarEntryForm(request.POST, request.FILES)
         if form.is_valid():
             entry = form.save(commit=False)
-            entry.user = request.user
+            entry.user = request.user  
+            entry.calendar = calendar
             entry.save()
+            request.session['recent_calendar_id'] = calendar.id 
             return redirect('calendar_entry_list')
     else:
         form = CalendarEntryForm()
 
     return render(request, 'create_calendar_entry.html', {'form': form})
 
+
+
 @login_required
 def calendar_entry_list(request):
-    # 사용자와 관련된 CalendarEntry 항목만 필터링하고 Day 순으로 정렬
     entries = CalendarEntry.objects.filter(user=request.user).order_by('day')
-    return render(request, 'calendar_entry_list.html', {'entries': entries})
+    calendar_id = request.session.get('recent_calendar_id') or (entries.first().calendar.id if entries.exists() else None)
+    if 'recent_calendar_id' in request.session:
+        del request.session['recent_calendar_id']
+    return render(request, 'calendar_entry_list.html', {'entries': entries, 'calendar_id': calendar_id})
+
+
 
 @login_required
 def calendar_entry_detail(request, entry_id):

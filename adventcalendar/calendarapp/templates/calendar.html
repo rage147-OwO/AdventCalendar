@@ -66,18 +66,6 @@
     <!-- #endregion -->
 
     <div class="calendar-container">
-        <div class="menu">
-            <div class="menu-items">
-                <span class="menu-item" id="calendar-intro"><a href="{% url 'calendar_intro' %}">캘린더 소개</a></span>
-
-                {% if user.is_authenticated %}
-                    <span class="menu-item" id="logout"><a href="/accounts/logout/">로그아웃</a></span>
-                {% else %}
-                    <span class="menu-item" id="login"><a href="login/">로그인</a></span>
-                {% endif %}
-                <span class="menu-item" id="post-list"><a href="{% url 'calendar_entry_list' %}">글 목록</a></span>
-            </div>
-        </div>
         
         
         <div class="title">
@@ -102,6 +90,7 @@
             <div class="day" data-day="{{ day_data.day }}">
                 {% if not day_data.person_name %}
                 <span class="day-number">{{ day_data.day }}</span>
+                <a href="{% url 'create_calendar_entry' calendar_id %}" class="add-btn">Add</a>
                 {% else %}
                 <div class="content">
                     {% if day_data.person_image_url %}
@@ -112,12 +101,19 @@
                     {% else %}
                     <p class="person-name">{{ day_data.person_name }}</p>
                     {% endif %}
+                    
+                    <!-- Check if current user is the owner of the entry -->
+                    {% if day_data.entry_user == user %}
+                    <a href="{% url 'update_calendar_entry' day_data.entry_id %}" class="edit-btn">Edit</a>
+                    <a href="{% url 'delete_calendar_entry' day_data.entry_id %}" class="delete-btn">Delete</a>
+                    {% endif %}
                 </div>
                 {% endif %}
             </div>
             {% endfor %}
+            
+            
 
-            <div class="day"></div>
             <div class="day"></div>
             <div class="day"></div>
             <div class="day"></div>
@@ -126,7 +122,6 @@
         </div>
 
     </div>
-
 
 
 

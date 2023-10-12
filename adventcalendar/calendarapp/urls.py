@@ -10,7 +10,7 @@ urlpatterns = [
     path('calendar_intro/', views.calendar_intro, name='calendar_intro'),
     path('calendar-entries/', views.calendar_entry_list, name='calendar_entry_list'),
     path('calendar-entry/<int:entry_id>/', views.calendar_entry_detail, name='calendar_entry_detail'),
-    path('create-calendar-entry/', views.create_calendar_entry, name='create_calendar_entry'),
+    path('calendar/<int:calendar_id>/create-calendar-entry/', views.create_calendar_entry, name='create_calendar_entry'),
     path('update-calendar-entry/<int:entry_id>/', views.update_calendar_entry, name='update_calendar_entry'),
     path('delete-calendar-entry/<int:entry_id>/', views.delete_calendar_entry, name='delete_calendar_entry'),
 

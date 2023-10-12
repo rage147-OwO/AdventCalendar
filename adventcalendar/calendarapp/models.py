@@ -11,15 +11,18 @@ class Calendar(models.Model):
         return self.name
 
 class CalendarEntry(models.Model):
-    calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='entries') # 이 부분을 추가합니다.
+    calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='entries')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
-    username = models.CharField(max_length=255)
-    day = models.PositiveIntegerField()  # unique 제약 조건을 일단 제거합니다.
+    day = models.PositiveIntegerField()
     link = models.URLField()
-    user_image = models.ImageField(upload_to='user_images/',null=True)
+    user_image = models.ImageField(upload_to='user_images/', null=True)
 
     class Meta:
-        unique_together = ['calendar', 'day']  # 한 캘린더 내에서는 동일한 날짜가 중복되지 않도록 설정
+        unique_together = ['calendar', 'day']
+
+    @property
+    def username(self):
+        return self.user.username if self.user else None
 
     def __str__(self):
         return f"Entry for {self.username} on {self.day} of {self.calendar.name}"

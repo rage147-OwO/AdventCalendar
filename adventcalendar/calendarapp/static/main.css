@@ -16,6 +16,34 @@ body {
 }
 
 
+.add-btn {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #2C2C2C;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s;
+
+  /* 버튼이 작은 아이콘 같은 느낌을 주기 위해 */
+  vertical-align: middle;
+  line-height: normal;
+}
+
+.add-btn:hover {
+  background-color: #0056b3;
+}
+
+.add-btn:active {
+  background-color: #004499;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset;
+}
+
+
+
 .menu{
   /* 오른쪽 정렬, 언더바*/
   display: flex;
@@ -137,7 +165,21 @@ body {
   font-weight: bold;
   width: 114px;
   height: 114px;
+  border-right: 1px solid #ddd;  /* Adding right border */
+  border-bottom: 1px solid #ddd; /* Adding bottom border */
+  box-sizing: border-box;        /* Ensuring border is included in the width/height */
 }
+
+/* If you're using a grid or flex layout, you might want to remove the right border for the last day in each row, and remove the bottom border for the last row. Here's an example assuming a 7-day week layout: */
+
+.calendar .day:nth-child(7n) {
+  border-right: none;
+}
+
+.calendar .day:nth-last-child(-n+7) {
+  border-bottom: none;
+}
+
 
 
 
@@ -148,7 +190,7 @@ body {
   z-index: 1;
   position: absolute;
   font-weight: lighter;
-  font-size: xx-small;
+  font-size: medium;
   top: 7%;
   left: 50%;
   transform: translate(-50%, -50%);

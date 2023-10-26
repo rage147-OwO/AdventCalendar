@@ -5,7 +5,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advent Calendar</title>
     {% load static %}
     <link rel="stylesheet" href="{% static "main.css" %}">
@@ -13,6 +12,7 @@
 </head>
 
 <body>
+    <div class="calendar-list">
     <!-- #region SampleRegion -->
     <div class="snowflake"></div>
     <div class="snowflake"></div>
@@ -66,12 +66,20 @@
     <!-- #endregion -->
 
     <div class="calendar-container">
-        
-        
-        <div class="title">
-            <h1>{{ calendar.name }}</h1>
-        </div>
+        <h2>{{ calendar.name }}</h2>
+        <p>
+        </p>
+        <p>
+        </p>
+        <p>
+        </p> 
         <p>{{ calendar.description }}</p>
+        <p>
+        </p>
+        <p>
+        </p>
+        <p>
+        </p> 
         <div class="calendar">
             <div class="week">월</div>
             <div class="week">화</div>
@@ -94,18 +102,24 @@
                 {% else %}
                 <div class="content">
                     {% if day_data.person_image_url %}
-                    <img src="{{ day_data.person_image_url }}" alt="{{ day_data.person_name }}">
+                        <a href="{{ day_data.link }}" target="_blank">
+                            <img src="{{ day_data.person_image_url }}" alt="{{ day_data.person_name }}" style="width: 100px; height: 100px;">
+                        </a>
                     {% endif %}
                     {% if day_data.link %}
-                    <a href="{{ day_data.link }}" class="person-name">{{ day_data.person_name }}</a>
+                        <a href="{{ day_data.link }}" class="person-name">{{ day_data.person_name }}</a>
                     {% else %}
-                    <p class="person-name">{{ day_data.person_name }}</p>
+                        <p class="person-name">{{ day_data.person_name }}</p>
                     {% endif %}
-                    
-                    <!-- Check if current user is the owner of the entry -->
-                    {% if day_data.entry_user == user %}
-                    <a href="{% url 'update_calendar_entry' day_data.entry_id %}" class="edit-btn">Edit</a>
-                    <a href="{% url 'delete_calendar_entry' day_data.entry_id %}" class="delete-btn">Delete</a>
+                    {% if user.is_authenticated %}
+                        {% if user.username == day_data.person_name %} 
+                            <a href="{% url 'update_calendar_entry' calendar_id=calendar_id day=day_data.day %}">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'delete_calendar_entry' calendar_id=calendar_id day=day_data.day %}">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        {% endif %}
                     {% endif %}
                 </div>
                 {% endif %}
@@ -122,6 +136,37 @@
         </div>
 
     </div>
+
+    {% for day_data in days %}
+    <div class="modal" id="modal-{{ day_data.day }}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>{{ day_data.day }}일</h2>
+            </div>
+            <div class="modal-body">
+                {% if day_data.person_image_url %}
+                    <img src="{{ day_data.person_image_url }}" alt="{{ day_data.person_name }}" style="max-width: 100px; max-height: 100px;">
+                {% endif %}
+                {% if day_data.link %}
+                    <a href="{{ day_data.link }}" class="person-name">{{ day_data.person_name }}</a>
+                {% else %}
+                    <p class="person-name">{{ day_data.person_name }}</p>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                {% if user.is_authenticated %}
+                    {% if user.username == day_data.person_name %} 
+                        <a href="{% url 'update_calendar_entry' calendar_id=calendar_id day=day_data.day %}">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{% url 'delete_calendar_entry' calendar_id=calendar_id day=day_data.day %}">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
 
 
 
@@ -243,5 +288,6 @@
     </p>
     <p>
     </p>
+    </div>
 </body>
 {% endblock %}

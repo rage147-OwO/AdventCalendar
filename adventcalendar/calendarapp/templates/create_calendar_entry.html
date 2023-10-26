@@ -6,8 +6,5 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Create</button>
-  </form>
-  <a href="{% url 'calendar_entry_list' calendar_id %}">Back to List</a>
-
-  
+  </form>s
 {% endblock %}

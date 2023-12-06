@@ -41,8 +41,6 @@ def calendar_detail(request, calendar_id):
 
 @login_required
 def update_calendar(request, calendar_id):
-    if(request.user != Calendar.objects.get(id=calendar_id).creator):
-        return HttpResponseForbidden()
     calendar = get_object_or_404(Calendar, id=calendar_id, creator=request.user)
 
     if request.method == 'POST':
@@ -57,8 +55,6 @@ def update_calendar(request, calendar_id):
 
 @login_required
 def delete_calendar(request, calendar_id):
-    if(request.user != Calendar.objects.get(id=calendar_id).creator):
-        return HttpResponseForbidden()
     calendar = get_object_or_404(Calendar, id=calendar_id, creator=request.user)
 
     if request.method == 'POST':
@@ -96,7 +92,7 @@ def calendar(request, calendar_id):
     for entry in calendar_entries:
         if 0 < entry.day <= 31:
             days[entry.day - 1].update({
-                'person_name': entry.username,
+                'person_name': request.user,
                 'person_image_url': entry.user_image.url if entry.user_image else None,
                 'link': entry.link
             })
@@ -104,7 +100,7 @@ def calendar(request, calendar_id):
     return render(request, 'calendar.html', {
         'days': days, 
         'calendar': calendar_obj, 
-        'calendar_id': calendar_id 
+        'calendar_id': calendar_id  # 여기에 calendar_id 추가
     }) 
 
 
@@ -131,14 +127,12 @@ def create_calendar_entry(request, calendar_id):
                 entry.user = request.user  
                 entry.calendar = calendar
                 entry.save()
-                print(day)
                 request.session['recent_calendar_id'] = calendar.id 
                 return redirect('calendar_detail', calendar_id=calendar_id)
     else:
         form = CalendarEntryForm()
 
     return render(request, 'create_calendar_entry.html', {'form': form, 'calendar_id': calendar_id})
-
 
 
 
@@ -153,38 +147,31 @@ def calendar_entry_list(request, calendar_id):
 
 
 @login_required
-def calendar_entry_detail(request, day):
-    entry = get_object_or_404(CalendarEntry, day=day, user=request.user)
-    return redirect(entry.link)
-
-
+def calendar_entry_detail(request, entry_id):
+    entry = get_object_or_404(CalendarEntry, id=entry_id, user=request.user)
+    return render(request, 'calendar_entry_detail.html', {'entry': entry})
 
 @login_required
-def update_calendar_entry(request, calendar_id, day):
-    if(request.user != CalendarEntry.objects.get(day=day, calendar=calendar_id).user):
-        return HttpResponseForbidden()
-    entry = get_object_or_404(CalendarEntry, day=day, user=request.user)
+def update_calendar_entry(request, calendar_id, entry_id):
+    entry = get_object_or_404(CalendarEntry, id=entry_id, user=request.user)
 
     if request.method == 'POST':
         form = CalendarEntryForm(request.POST, request.FILES, instance=entry)
         if form.is_valid():
             form.save()
-            return redirect('calendar_entry_detail', calendar_id=calendar_id, entry_id=entry.id)
+            return redirect('calendar_entry_detail', calendar_id=calendar_id, entry_id=entry_id)
     else:
         form = CalendarEntryForm(instance=entry)
 
     return render(request, 'update_calendar_entry.html', {'form': form, 'entry': entry})
 
-
 @login_required
-def delete_calendar_entry(request, calendar_id, day):
-    if(request.user != CalendarEntry.objects.get(day=day, calendar=calendar_id).user):
-        return HttpResponseForbidden()
-    entry = get_object_or_404(CalendarEntry, day=day, user=request.user)
+def delete_calendar_entry(request,calendar_id, entry_id):
+    entry = get_object_or_404(CalendarEntry, id=entry_id, user=request.user)
 
     if request.method == 'POST':
         entry.delete()
-        return redirect('calendar_entry_detail', calendar_id=calendar_id, entry_id=entry.id)
+        return redirect('calendar_entry_detail', calendar_id=calendar_id, entry_id=entry_id)
     return render(request, 'delete_calendar_entry.html', {'entry': entry, 'calendar_id': entry.calendar.id})
 
 

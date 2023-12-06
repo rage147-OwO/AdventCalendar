@@ -94,7 +94,10 @@
                 {% else %}
                 <div class="content">
                     {% if day_data.person_image_url %}
-                    <img src="{{ day_data.person_image_url }}" alt="{{ day_data.person_name }}">
+                    <a href="{{ day_data.link }}">
+                        <img src="{{ day_data.person_image_url }}" alt="{{ day_data.person_name }}">
+                    </a>
+                    
                     {% endif %}
                     {% if day_data.link %}
                     <a href="{{ day_data.link }}" class="person-name">{{ day_data.person_name }}</a>
@@ -120,6 +123,19 @@
             <div class="day"></div>
             <div class="day"></div>
         </div>
+        <h3>캘린더 목록</h3>
+        <ul>
+            {% for entry in entries %}
+            <li>
+                <a href="{% url 'calendar_entry_detail' calendar_id entry.id %}">Day {{ entry.day }} - {{ entry.username }}</a>
+                {% if entry.user == user %}
+                (<a href="{% url 'update_calendar_entry' calendar_id entry.id %}">Edit</a>
+                | <a href="{% url 'delete_calendar_entry' calendar_id entry.id %}">Delete</a>)          
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'create_calendar_entry' calendar_id=calendar_id %}">Create New Entry</a>
 
     </div>
 

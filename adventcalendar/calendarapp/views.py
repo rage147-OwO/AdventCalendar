@@ -77,14 +77,12 @@ def delete_calendar(request, calendar_id):
 
 
 
-
-
-
 def calendar(request, calendar_id):
     # 해당 ID의 Calendar를 가져옴
     calendar_obj = get_object_or_404(Calendar, id=calendar_id)
     
     days = [{'day': i, 'person_name': None, 'person_image_url': None, 'link': None} for i in range(1, 26)]
+    entries = CalendarEntry.objects.filter(calendar=calendar_id).order_by('day')  
     
     # 해당 Calendar와 연결된 CalendarEntry 항목만 가져옴
     calendar_entries = CalendarEntry.objects.filter(calendar=calendar_obj)
@@ -92,12 +90,13 @@ def calendar(request, calendar_id):
     for entry in calendar_entries:
         if 0 < entry.day <= 31:
             days[entry.day - 1].update({
-                'person_name': request.user,
+                'person_name': entry.user,
                 'person_image_url': entry.user_image.url if entry.user_image else None,
                 'link': entry.link
             })
 
     return render(request, 'calendar.html', {
+        'entries' : entries,
         'days': days, 
         'calendar': calendar_obj, 
         'calendar_id': calendar_id  # 여기에 calendar_id 추가

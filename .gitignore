@@ -2,7 +2,6 @@
 
 # media 폴더 무시
 media/
-
 venv/
 
 # Django

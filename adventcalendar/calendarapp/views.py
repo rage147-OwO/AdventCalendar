@@ -158,7 +158,7 @@ def update_calendar_entry(request, calendar_id, entry_id):
         form = CalendarEntryForm(request.POST, request.FILES, instance=entry)
         if form.is_valid():
             form.save()
-            return redirect('calendar_entry_detail', calendar_id=calendar_id, entry_id=entry_id)
+            return redirect(calendar, calendar_id=calendar_id)
     else:
         form = CalendarEntryForm(instance=entry)
 
@@ -170,7 +170,7 @@ def delete_calendar_entry(request,calendar_id, entry_id):
 
     if request.method == 'POST':
         entry.delete()
-        return redirect('calendar_entry_detail', calendar_id=calendar_id, entry_id=entry_id)
+        return redirect(calendar, calendar_id=calendar_id)
     return render(request, 'delete_calendar_entry.html', {'entry': entry, 'calendar_id': entry.calendar.id})
 
 
